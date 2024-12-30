@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #2c3e50;
+    --container-bg: #ffffff;
+    --accent-color: #ff5722;
+    --button-bg: #e7e7e7;
+    --button-hover-bg: #d6d6d6;
+    --h1-color:#2c3e50;
+    --dark-div-color:rgba(255, 230, 230, 0.771);
+
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #2c3e50;
+    --container-bg: #1c1c1c;
+    --accent-color: #ff9800;
+    --button-bg: #2e2e2e;
+    --button-hover-bg: #3a3a3a;
+    --h1-color:#e0e0e0;
+    --dark-div-color:rgba(0, 0, 0, 0.693);
+
+}
+
+.photo {
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+
+.dark {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: end;
+    padding: 10px 20px;
+    background-color: var(--dark-div-color);
+    color: var(--h1-color);
+    border-radius: 50px;
+}
+
+
+.body {
+    min-height: 93vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+}
+
+p{
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.container {
+    margin: 50px 0;
+    padding: 40px;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 15px;
+    background-color: var(--container-bg);
+    border: 2px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px, rgba(0, 0, 0, 0.1) 0px 4px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#theme-toggle {
+    width: 50px;
+    height: 25px;
+    /* padding: 10px 20px; */
+    background-color: var(--button-bg);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+#theme-toggle::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2.5px;
+    left: 2.5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+[data-theme="dark"] #theme-toggle {
+    background-color: var(--accent-color);
+}
+
+[data-theme="dark"] #theme-toggle::before {
+    transform: translateX(25px);
+}
+[data-theme="dark"] html {
+    background-color: var(--bg-color);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #e64a19;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    background-color: #ff5722;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1{
+    color: var(--h1-color);
+}
+
+.question {
+    background-color: #ffe6e6;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    border-left: 5px solid #ff5722;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.question:hover {
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 12px;
+}
+
+.submit-btn,
+.reattempt-btn {
+    width: 60%;
+    max-width: 200px;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    background-color: #ff5722;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+
+.submit-btn:hover,
+.reattempt-btn:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+}
+
+.submit-btn:active,
+.reattempt-btn:active {
+    transform: scale(0.95);
+}
+
+.submit-btn:disabled {
+    background-color: #ffccbc;
+    cursor: not-allowed;
+}
+
+@media (max-width:480px) {
+    .container {
+        margin: 50px 0;
+        padding: 10px;
+        width: 98%;
+    }
+}

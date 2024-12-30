@@ -1,0 +1,373 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+}
+
+:root {
+    --light-bg-color: #fafafa;
+    --light-container-bg: #ffffff;
+    --light-button-bg: #ff7043;
+    --light-button-hover: #ff8a65;
+    --light-score-bg: #ffebee;
+    --light-text-color: #2c3e50;
+    --light-h1-color: #2980b9;
+
+    /* Dark Mode Colors */
+    --dark-bg-color: #2c3e50;
+    --dark-container-bg: #34495e;
+    --dark-button-bg: #8e44ad;
+    --dark-button-hover: #9b59b6;
+    --dark-score-bg: #1abc9c;
+    --dark-text-color: #ecf0f1;
+    --dark-h1-color: #f39c12;
+    --dark-border-color: #7f8c8d;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-bg-color);
+    color: var(--light-text-color);
+    font-size: 16px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 85vh;
+    padding: 20px 30px;
+    border-radius: 20px;
+    background-color: var(--light-container-bg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #ff6b6b, #ff8787);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header i {
+    font-size: 4rem;
+    color: black;
+}
+
+.container {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.scores {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.score p {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--light-h1-color);
+}
+
+.pScore,
+.cScore {
+    background-color: var(--light-score-bg);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.gameStatus {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.gameStatus h1 {
+    font-size: 3.5rem;
+    color: var(--light-h1-color);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.gamePhoto {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+    height: 15rem;
+}
+
+.userPhoto,
+.computerPhoto {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 15rem;
+    height: 15rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.name {
+    padding: 0 10px 0 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    font-size: 1.4rem;
+    background-color: #1abc9c;
+}
+
+.userPhoto img,
+.computerPhoto img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+}
+
+
+.shake {
+    animation: shake 0.5s infinite;
+}
+
+.gamePhoto h1 {
+    font-size: 2.5rem;
+    color: var(--light-h1-color);
+}
+
+.userButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+}
+
+.btn {
+    border: none;
+    height: 5rem;
+    width: 12rem;
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: var(--light-button-bg);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease-in-out, box-shadow 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--light-button-hover);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+}
+
+.main.dark-mode {
+    background-color: var(--dark-container-bg);
+}
+
+.pScore.dark-mode,
+.cScore.dark-mode {
+    background-color: var(--dark-score-bg);
+    color: var(--dark-text-color);
+}
+
+.gameStatus h1.dark-mode {
+    color: var(--dark-h1-color);
+}
+
+
+.btn.dark-mode {
+    background-color: var(--dark-button-bg);
+}
+
+.btn.dark-mode:hover {
+    background-color: var(--dark-button-hover);
+}
+
+@media (max-width: 1024px) {
+    .main {
+        width: 70%;
+    }
+
+    .header p {
+        font-size: 2rem;
+    }
+
+    .header i {
+        font-size: 3rem;
+    }
+
+    .gameStatus h1 {
+        font-size: 3rem;
+    }
+
+    .score p,
+    .pScore,
+    .cScore {
+        font-size: 1.8rem;
+    }
+
+    .gamePhoto img {
+        width: 8rem;
+    }
+
+    .btn {
+        font-size: 1.8rem;
+        height: 4rem;
+        width: 10rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        width: 90%;
+    }
+
+    .header p {
+        font-size: 1.8rem;
+    }
+
+    .header i {
+        font-size: 2.5rem;
+    }
+
+    .gameStatus h1 {
+        font-size: 2.5rem;
+    }
+
+    .score p,
+    .pScore,
+    .cScore {
+        font-size: 1.6rem;
+    }
+
+    .gamePhoto {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .userPhoto,
+    .computerPhoto {
+        width: 12rem;
+        height: 8rem;
+    }
+
+    .gamePhoto img {
+        width: 8rem;
+    }
+
+    .btn {
+        font-size: 1.6rem;
+        height: 4.5rem;
+        width: 9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+
+    .main {
+        width: 95%;
+        height: auto;
+        padding: 15px 20px;
+    }
+
+    .header p {
+        font-size: 1.5rem;
+    }
+
+    .header i {
+        font-size: 2rem;
+    }
+
+    .gameStatus h1 {
+        font-size: 2rem;
+    }
+
+    .score p,
+    .pScore,
+    .cScore {
+        font-size: 1.4rem;
+    }
+
+    .gamePhoto img {
+        width: 7rem;
+    }
+
+    .btn {
+        font-size: 1.4rem;
+        height: 4rem;
+        width: 8rem;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(-10px);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+
+    75% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

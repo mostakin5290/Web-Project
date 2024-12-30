@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="style.css">
+        <title>Stone Paper Scissor</title>
+    </head>
+    
+    <body>
+        <div class="main">
+            <div class="header">
+                <p>Rock Paper Scissors with Compose</p>
+                <div id="dark"><i class="fa-solid fa-moon"
+                        id="modeToggle"></i></div>
+
+            </div>
+            <div class="container">
+                <div class="scores">
+                    <div class="playerScore score">
+                        <p>Player Score:</p>
+                        <p class="pScore">0</p>
+                    </div>
+                    <div class="computerScore score">
+                        <p>Computer Score:</p>
+                        <p class="cScore">0</p>
+                    </div>
+                </div>
+                <div class="gameStatus">
+                    <h1>Chose an Option</h1>
+                </div>
+                <div class="gamePhoto">
+                    <div class="userPhoto">
+                        <img src="./img/stonePlayer.png">
+                        <div class="name"><p>User</p></div>
+
+                    </div>
+                    <h1>VS</h1>
+                    <div class="computerPhoto">
+                        <img src="./img/stoneComputer.png">
+                        <div class="name"><p>Computer</p></div>
+
+                    </div>
+                </div>
+                <div class="userButton">
+                    <button id="rock" class="btn choice">ROCK</button>
+                    <button id="paper" class="btn choice">PAPER</button>
+                    <button id="scissor" class="btn choice">SCISSOR</button>
+                </div>
+                <div class="restartButton">
+                    <button class="restart btn">Restart</button>
+                </div>
+            </div>
+        </div>
+        <script src="./script.js"></script>
+    </body>
+</html>

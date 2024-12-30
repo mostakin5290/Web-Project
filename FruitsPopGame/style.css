@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.container {
+    border-left: 5px solid #00adb5;
+    border-right: 5px solid #00ffcc;
+    border-bottom: 5px solid #ffffff;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 85vh;
+    width: 90%;
+    background: linear-gradient(145deg, #393e46, #222831);
+}
+
+.head {
+    height: 10vh;
+    background: linear-gradient(90deg, #00adb5, #00ffcc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px 5px 0 0;
+    gap: 2rem;
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #ffffff;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 75vh;
+    width: 100%;
+    border-radius: 0 0px 5px 5px;
+    background: linear-gradient(145deg, #222831, #393e46);
+    overflow: hidden;
+}
+
+.main button {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    background: linear-gradient(90deg, #00adb5, #00ffcc);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.5s ease, transform 0.2s ease;
+}
+
+.main button:hover {
+    background: linear-gradient(90deg, #00ffcc, #00adb5);
+    transform: scale(1.1);
+}
+
+.bubble {
+    cursor: default;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* border: 1px solid red; */
+    background: linear-gradient(135deg, #00adb5, #00ffcc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    opacity: 1;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.bubble.grow-animation {
+    animation: grow 0.1s forwards;
+}
+
+.photo {
+    height: 80px;
+    width: 80px;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
