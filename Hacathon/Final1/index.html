@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- fontAwesome -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet">
+        <!-- css -->
+        <link rel="stylesheet" href="./style.css">
+        <title>Daily Progress Planner</title>
+        <link rel="icon" href="./img/logo.jpg" type="image/x-icon">
+
+    </head>
+
+    <body>
+        <section class="sideBar">
+            <div>
+                <ul class="side-menu">
+                    <li class="categories">
+                        <a href="#" style="font-size: 30px;">
+                            <i class="fa-solid fa-bars menu full"></i>
+                            <span class="text">Categories</span></a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="side-menu top">
+                <li class="active" id="homeBtn">
+                    <a href="#"><i class="fa-solid fa-house full"></i><span
+                            class="text">Home</span></a>
+                </li>
+                <li id="TotalActivityBtn">
+                    <a href="#"><i
+                            class="fa-regular fa-rectangle-list full"></i><span
+                            class="text">All Progress</span></a>
+                </li>
+                <li id="CompleteActivityBtn">
+                    <a href="#"><i
+                            class="fa-solid fa-calendar-check full"></i><span
+                            class="text">Completed Goals</span></a>
+                </li>
+                <li id="PendingActivityBtn">
+                    <a href="#"><i class="fa-regular fa-clock full"></i><span
+                            class="text">Ongoing Tasks</span></a>
+                </li>
+                <li id="FailedActivityBtn">
+                    <a href="#"><i
+                            class="fa-solid fa-circle-exclamation full"></i><span
+                            class="text">Unfinished Goals</span></a>
+                </li>
+                <li id="AboutBtn">
+                    <a href="#" class="AboutText"><i
+                            class="fa-solid fa-user full"></i><span
+                            class="text">About Me</span></a>
+                </li>
+            </ul>
+            <ul class="side-menu">
+                <li>
+                    <a href="#"><i class="fa-solid fa-gear full"></i><span
+                            class="text">Settings</span></a>
+                </li>
+            </ul>
+        </section>
+        <div class="content">
+            <nav>
+                <span class="projectHeading">Daily Progress Planner</span>
+                <div>
+                    <input type="checkbox" id="dark-mode-toggle" hidden />
+                    <label for="dark-mode-toggle" class="switch-mode"></label>
+                </div>
+            </nav>
+            <main>
+                <div class="container flex home-part">
+                    <div class="head">
+                        <h1>Calendar</h1>
+                    </div>
+                    <div class="home">
+                        <!-- Calendar Section -->
+                        <div class="calendar-section">
+                            <div class="calendar-controls">
+                                <button onclick="changeMonth(-1)"><i
+                                        class="fa-solid fa-arrow-left"></i></button>
+                                <h2 id="currentMonth">1</h2>
+                                <button onclick="changeMonth(1)"><i
+                                        class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="day-label">S</div>
+                                <div class="day-label">M</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">W</div>
+                                <div class="day-label">T</div>
+                                <div class="day-label">F</div>
+                                <div class="day-label">S</div>
+                            </div>
+                            <div class="calendar" id="calendar">
+                            </div>
+                        </div>
+                        <!-- Event Section -->
+                        <div class="event-section">
+                            <div class="event-header" id="selectedDate"></div>
+                            <div class="event-list" id="eventList"></div>
+
+                            <form class="event-form" onsubmit="addEvent(event)">
+                                <input type="date" id="eventDate"
+                                    placeholder="Select Date" required>
+                                <input type="text" id="eventName"
+                                    placeholder="Event Name" required>
+                                <input type="time" id="timeFrom"
+                                    placeholder="Time From" required>
+                                <input type="time" id="timeTo"
+                                    placeholder="Time To" required>
+                                <div id="submit-container">
+                                    <button id="submitBtn" type="submit">Add
+                                        Tasks</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="container flex TotalActivity">
+                    <div class="head">
+                        <h1>Total Tasks</h1>
+                    </div>
+                    <div class="allEvent">
+                        <table id="eventTable">
+                            <thead>
+                                <tr>
+                                    <th class="table-head">Date</th>
+                                    <th class="table-head">Name</th>
+                                    <th class="table-head">Time</th>
+                                    <th class="table-head">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container flex CompleteActivity">
+                    <div class="head">
+                        <h1>Complete Tasks</h1>
+                    </div>
+                    <div class="allEvent">
+                        <table id="CompleteEventTable">
+                            <thead>
+                                <tr>
+                                    <th class="table-head">Date</th>
+                                    <th class="table-head">Name</th>
+                                    <th class="table-head">Time</th>
+                                    <th class="table-head">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container flex PendingActivity">
+                    <div class="head">
+                        <h1>Pending Tasks</h1>
+                    </div>
+                    <div class="allEvent">
+                        <table id="PendingEventTable">
+                            <thead>
+                                <tr>
+                                    <th class="table-head">Date</th>
+                                    <th class="table-head">Name</th>
+                                    <th class="table-head">Time</th>
+                                    <th class="table-head">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container flex FailedActivity">
+                    <div class="head">
+                        <h1>Failed Tasks</h1>
+                    </div>
+                    <div class="allEvent">
+                        <table id="failedEventTable">
+                            <thead>
+                                <tr>
+                                    <th class="table-head">Date</th>
+                                    <th class="table-head">Name</th>
+                                    <th class="table-head">Time</th>
+                                    <th class="table-head">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container flex About">
+                    <div class="image-section">
+                        <img src="./img/About.jpg" alt="Mostakin Mondal">
+                    </div>
+                    <div class="text-section">
+                        <div class="nameSection">
+                            <h1>Hi, I'm</h1>
+                            <h1><span>Mostakin Mondal</span></h1>
+                        </div>
+                        <p>
+                            I am a passionate Frontend Designer who loves creating modern, user-friendly websites. With the help of HTML, CSS and JavaScript, I enjoy turning
+                            ideas into beautiful, functional designs. When I'm not coding, I enjoy exploring the latest
+                            trends in web development and <a href="#" class="button">see more...</a>
+                        </p>
+                        
+                        <div class="contact-info">
+                            <a href="https://www.linkedin.com/in/mostakin-mondal-a935a9270/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="https://github.com/mostakin5290" target="_blank"><i class="fa-brands fa-square-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script src="./app.js"></script>
+    </body>
+
+</html>

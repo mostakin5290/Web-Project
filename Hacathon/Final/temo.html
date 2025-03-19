@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            width: 60%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .calendar-controls button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            grid-template-rows: repeat(6, 50px); /* 6 rows to accommodate the max days */
+        }
+
+        .day {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #fff;
+        }
+
+        .current-day {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .selected-day {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        /* Event Section */
+        .event-section {
+            width: 35%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .event-form input,
+        .event-form button {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+        }
+
+        /* All Events Section */
+        .allevent {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        #eventTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-head, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container home">
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <div class="calendar-controls">
+                <button onclick="changeMonth(-1)">&lt;</button>
+                <input type="text" id="currentMonth" readonly>
+                <button onclick="changeMonth(1)">&gt;</button>
+            </div>
+            <div class="calendar" id="calendar"></div>
+        </div>
+
+        <!-- Event Section -->
+        <div class="event-section">
+            <div class="event-header" id="selectedDate"></div>
+            <div class="event-list" id="eventList"></div>
+            <form class="event-form" onsubmit="addEvent(event)">
+                <input type="date" id="eventDate" required>
+                <input type="text" id="eventName" placeholder="Event Name" required>
+                <input type="time" id="timeFrom" placeholder="Time From" required>
+                <input type="time" id="timeTo" placeholder="Time To" required>
+                <button type="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="allevent">
+        <h2>All Events</h2>
+        <table id="eventTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Event Name</th>
+                    <th>Time From</th>
+                    <th>Time To</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const calendarElement = document.getElementById("calendar");
+        const currentMonthElement = document.getElementById("currentMonth");
+        const selectedDateElement = document.getElementById("selectedDate");
+        const eventListElement = document.getElementById("eventList");
+        const eventDateInput = document.getElementById("eventDate");
+        const eventTableBody = document.querySelector(".allevent tbody");
+
+        let currentDate = new Date();
+        let events = JSON.parse(localStorage.getItem("events")) || {}; // Load events from local storage
+
+        function generateCalendar() {
+            calendarElement.innerHTML = ""; // Clear previous days
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const today = new Date();
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            currentMonthElement.value = `${year}-${String(month + 1).padStart(2, "0")}`;
+
+            // Fill blank days
+            for (let i = 0; i < firstDay; i++) {
+                const blank = document.createElement("div");
+                blank.className = "day";
+                calendarElement.appendChild(blank);
+            }
+
+            // Add days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement("div");
+                dayElement.className = "day";
+                dayElement.textContent = day;
+                dayElement.onclick = () => selectDate(year, month, day);
+
+                // Highlight current date
+                if (
+                    day === today.getDate() &&
+                    year === today.getFullYear() &&
+                    month === today.getMonth()
+                ) {
+                    dayElement.classList.add("current-day");
+                }
+
+                calendarElement.appendChild(dayElement);
+            }
+
+            // Default to today's date or load last selected date
+            if (!localStorage.getItem("selectedDate")) {
+                selectDate(today.getFullYear(), today.getMonth(), today.getDate());
+            } else {
+                const [savedYear, savedMonth, savedDay] = localStorage
+                    .getItem("selectedDate")
+                    .split("-")
+                    .map(Number);
+                selectDate(savedYear, savedMonth - 1, savedDay);
+            }
+        }
+
+        function selectDate(year, month, day) {
+            const selectedDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            selectedDateElement.textContent = selectedDate;
+            eventDateInput.value = selectedDate;
+
+            // Save selected date to local storage
+            localStorage.setItem("selectedDate", selectedDate);
+
+            // Remove previous selected-day styling
+            document.querySelectorAll(".day").forEach((el) => el.classList.remove("selected-day"));
+
+            // Highlight the selected day
+            const days = Array.from(calendarElement.children).filter(
+                (el) => el.textContent == day && !el.classList.contains("current-day")
+            );
+            if (days.length) {
+                days[0].classList.add("selected-day");
+            }
+
+            // Display events for the selected date
+            displayEvents(selectedDate);
+        }
+
+        function displayEvents(date) {
+            eventListElement.innerHTML = ""; // Clear previous events
+
+            if (events[date]) {
+                events[date].forEach((event, index) => {
+                    const eventContainer = document.createElement("div");
+                    eventContainer.style.display = "flex";
+                    eventContainer.style.alignItems = "center";
+                    eventContainer.style.justifyContent = "space-between";
+                    eventContainer.style.marginBottom = "10px";
+
+                    const eventItem = document.createElement("span");
+                    eventItem.textContent = `${event.name} (${event.timeFrom} - ${event.timeTo})`;
+                    eventItem.style.flex = "1";
+
+                    const modifyButton = document.createElement("button");
+                    modifyButton.textContent = "Modify";
+                    modifyButton.style.marginRight = "5px";
+                    modifyButton.onclick = () => modifyEvent(date, index);
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.style.marginRight = "5px";
+                    deleteButton.onclick = () => deleteEvent(date, index);
+
+                    const doneButton = document.createElement("button");
+                    doneButton.textContent = "Done";
+                    doneButton.onclick = () => markDone(date, index);
+
+                    eventContainer.appendChild(eventItem);
+                    eventContainer.appendChild(modifyButton);
+                    eventContainer.appendChild(deleteButton);
+                    eventContainer.appendChild(doneButton);
+
+                    eventListElement.appendChild(eventContainer);
+                });
+            } else {
+                eventListElement.innerHTML = "<p>No events for this day</p>";
+            }
+
+            updateAllEventsTable(); // Update the "All Events" table
+        }
+
+        function addEvent(event) {
+            event.preventDefault();
+            const date = eventDateInput.value;
+            const name = document.getElementById("eventName").value;
+            const timeFrom = document.getElementById("timeFrom").value;
+            const timeTo = document.getElementById("timeTo").value;
+
+            if (!name || !timeFrom || !timeTo) return;
+
+            if (!events[date]) {
+                events[date] = [];
+            }
+
+            events[date].push({ name, timeFrom, timeTo, done: false });
+            localStorage.setItem("events", JSON.stringify(events));
+
+            document.getElementById("eventName").value = "";
+            displayEvents(date);
+        }
+
+        function modifyEvent(date, index) {
+            const newEventName = prompt("Modify event name:");
+            const newTimeFrom = prompt("Modify time from:");
+            const newTimeTo = prompt("Modify time to:");
+
+            if (newEventName && newTimeFrom && newTimeTo) {
+                events[date][index].name = newEventName;
+                events[date][index].timeFrom = newTimeFrom;
+                events[date][index].timeTo = newTimeTo;
+                localStorage.setItem("events", JSON.stringify(events));
+                displayEvents(date);
+            }
+        }
+
+        function deleteEvent(date, index) {
+            events[date].splice(index, 1);
+            if (events[date].length === 0) {
+                delete events[date];
+            }
+            localStorage.setItem("events", JSON.stringify(events));
+            displayEvents(date);
+        }
+
+        function markDone(date, index) {
+            events[date][index].done = !events[date][index].done;
+            localStorage.setItem("events", JSON.stringify(events));
+            displayEvents(date);
+        }
+
+        function updateAllEventsTable() {
+            eventTableBody.innerHTML = ""; // Clear previous table rows
+
+            // Loop through all events and add them to the "All Events" table
+            for (const date in events) {
+                events[date].forEach((event) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td>${event.name}</td>
+                        <td>${event.timeFrom}</td>
+                        <td>${event.timeTo}</td>
+                        <td>${event.done ? 'Completed' : 'Pending'}</td>
+                    `;
+                    eventTableBody.appendChild(row);
+                });
+            }
+        }
+
+        // Function to change month
+        function changeMonth(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction); // Add or subtract 1 from the current month
+            generateCalendar(); // Regenerate the calendar with the new month
+        }
+
+        window.onload = generateCalendar;
+    </script>
+</body>
+</html>

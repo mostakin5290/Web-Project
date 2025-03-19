@@ -1,0 +1,370 @@
+<div class="calendar">
+    <header class="calendar-header">
+      <p class="calendar-current-date"></p>
+      <div class="calendar-navigation">
+        <i id="calendar-prev" class="fa-solid fa-caret-left"></i>
+        <i id="calendar-next" class="fa-solid fa-caret-right"></i>
+      </div>
+    </header>
+    <div class="calendar-body">
+      <ul class="calendar-weekdays">
+        <li>Sun</li>
+        <li>Mon</li>
+        <li>Tue</li>
+        <li>Wed</li>
+        <li>Thu</li>
+        <li>Fri</li>
+        <li>Sat</li>
+      </ul>
+      <ul class="calendar-dates"></ul>
+    </div>
+    
+    <!-- Popup for message inside the calendar -->
+    <div class="massage-popup">
+      <div class="massage-content">
+        <p>Set a message for <strong class="selected-date"></strong>:</p>
+        <textarea placeholder="Enter your message here..."></textarea>
+        <div class="message-buttons">
+          <button class="save-message">Save</button>
+          <button class="close-message">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  let date = new Date();
+let year = date.getFullYear();
+let month = date.getMonth();
+
+const day = document.querySelector(".calendar-dates");
+const currDate = document.querySelector(".calendar-current-date");
+const prenexIcons = document.querySelectorAll(".calendar-navigation i");
+const massagePopup = document.querySelector(".massage-popup");
+const selectedDateElement = document.querySelector(".selected-date");
+
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+// Object to store messages for specific dates
+const messages = {};
+
+// Function to render the calendar
+const manipulate = () => {
+    let dayone = new Date(year, month, 1).getDay();
+    let lastdate = new Date(year, month + 1, 0).getDate(); // Last date of the month
+    let dayend = new Date(year, month, lastdate).getDay(); // Day of the last date
+    let monthlastdate = new Date(year, month, 0).getDate(); // Last date of previous month
+
+    let lit = "";
+
+    // Add previous month's last days
+    for (let i = dayone; i > 0; i--) {
+        lit += `<li class="inactive">${monthlastdate - i + 1}</li>`;
+    }
+
+    // Add current month's days
+    for (let i = 1; i <= lastdate; i++) {
+        let isToday = i === date.getDate() &&
+            month === new Date().getMonth() &&
+            year === new Date().getFullYear()
+            ? "active"
+            : "";
+        // Check if there's a saved message for the current date
+        let savedDot = messages[`${months[month]} ${i}, ${year}`] ? '<div class="saved-message-dot"></div>' : '';
+        lit += `<li class="${isToday}" data-date="${i}">${i}${savedDot}</li>`;
+    }
+
+    // Add next month's first days
+    for (let i = dayend; i < 6; i++) {
+        lit += `<li class="inactive">${i - dayend + 1}</li>`;
+        
+    }
+
+    currDate.innerText = `${months[month]} ${year}`; // Update header date
+    day.innerHTML = lit; // Update calendar dates
+
+    attachDateClickEvents();
+};
+
+// Function to attach click events to dates
+const attachDateClickEvents = () => {
+    const dateElements = document.querySelectorAll(".calendar-dates li:not(.inactive)");
+
+    dateElements.forEach((dateElement) => {
+        dateElement.addEventListener("click", () => {
+            const selectedDate = dateElement.getAttribute("data-date");
+            openMessageInterface(selectedDate);
+        });
+    });
+};
+
+// Function to open message input interface in a popup
+const openMessageInterface = (selectedDate) => {
+    const fullDate = `${months[month]} ${selectedDate}, ${year}`;
+    selectedDateElement.innerText = fullDate;
+    const existingMessage = messages[fullDate] || "";
+    massagePopup.querySelector("textarea").value = existingMessage;
+
+    massagePopup.style.display = "block"; // Show popup
+
+    // Save button event
+    document.querySelector(".save-message").addEventListener("click", () => {
+        const message = massagePopup.querySelector("textarea").value;
+        if (message) {
+            messages[fullDate] = message; // Save the message
+        } else {
+            delete messages[fullDate]; // Remove the message if empty
+        }
+        alert(`Message for ${fullDate} saved!`);
+        massagePopup.style.display = "none"; // Hide popup
+        manipulate(); // Refresh the calendar to show the saved dot
+    });
+
+    // Close button event
+    document.querySelector(".close-message").addEventListener("click", () => {
+        massagePopup.style.display = "none"; // Hide popup
+    });
+};
+
+// Calendar navigation (prev/next month)
+prenexIcons[0].addEventListener("click", () => {
+    month = (month === 0) ? 11 : month - 1;
+    manipulate();
+});
+
+prenexIcons[1].addEventListener("click", () => {
+    month = (month === 11) ? 0 : month + 1;
+    manipulate();
+});
+
+manipulate();
+
+
+
+
+.calendar {
+    width: 100%;
+    height: 100%;
+    background: var(--light);
+    color: var(--dark);
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .calendar header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+    /* width: 100%; */
+  }
+  
+  .calendar-navigation {
+    display: flex;
+  }
+  
+  .calendar-navigation i {
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 50%;
+    user-select: none;
+    color: #aeabab;
+    font-size: 1.9rem;
+  }
+  .calendar-navigation span:last-child {
+    margin-right: -10px;
+  }
+  
+  .calendar-navigation i:hover {
+    background: var(--blue);
+  }
+  
+  .calendar-current-date {
+    font-weight: 500;
+    font-size: 1.45rem;
+    text-align: center;
+  }
+  
+  .calendar-body {
+    padding: 20px;
+    /* width: 100%; */
+  }
+  
+  .calendar-body ul {
+    list-style: none;
+    flex-wrap: wrap;
+    display: flex;
+    /* justify-content: center; */
+    text-align: center;
+  }
+  
+  .calendar-body .calendar-dates {
+    margin-bottom: 20px;
+  }
+  
+  .calendar-body li {
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+    color: #414141;
+  }
+  
+  /* 
+  .calendar-body .calendar-weekdays {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  } */
+  
+  .calendar-body .calendar-weekdays li {
+    cursor: default;
+    font-weight: 500;
+    color: var(--dark);
+  }
+  
+  /* .calendar-body .calendar-dates {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  
+  .calendar-body li {
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+    color: #414141;
+    padding: 8px;
+  } */
+  
+  .calendar-body .calendar-dates li {
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+  }
+  
+  /* .inactive {
+    color: #af1a1a;
+    background-color: #060714;
+  } */
+  
+  .calendar-dates li .active {
+    color: #fff;
+    /* color: #f80000;
+    background-color: #3C91E6;
+    font-weight: bold; */
+  }
+  
+  .calendar-dates li::before {
+    position: absolute;
+    content: "";
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .calendar-dates li .active::before {
+    background: #6332c5;
+  }
+  
+  .calendar-dates li:not(.active):hover::before {
+    background: #e4e1e1;
+  }
+  
+  /* Massage popup styles */
+  .massage-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .massage-popup .massage-content {
+    position: relative;
+  }
+  
+  .massage-popup p {
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  
+  .massage-popup textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    resize: none;
+  }
+  
+  .message-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .message-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .save-message {
+    background-color: #6332c5;
+    color: white;
+  }
+  
+  .close-message {
+    background-color: #ccc;
+    color: black;
+  }
+  
+  .saved-message-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #3C91E6;
+  }
+  
+  
+  
+  
+  
+  @media screen and (max-width: 768px) {
+      .sidebar {
+          width: 200px;
+      }
+  
+      .content {
+          width: calc(100% - 60px);
+          left: 200px;
+      }
+  
+      .content nav .nav-link {
+          display: none;
+      }
+  }

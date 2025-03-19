@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <header>
+                <div class="logo">
+                    <h2>Daily Writing Tracker</h2>
+                    <div class="close">
+                        <i class="fa-solid fa-xmark full"></i>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#dashboard"><i class="fa-solid fa-table-columns full"></i>
+                                <span class="title">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#goals">
+                                <i class="fa-regular fa-square-check full"></i>
+                                <span class="title">Writing Goals</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#mind-map">
+                                <i class="fa-solid fa-diagram-project full"></i>
+                                <span class="title">Mind Map</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tasks">
+                                <i class="fa-solid fa-list-check full"></i>
+                                <span class="title">My Tasks</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#reminders">
+                                <i class="fa-regular fa-bell full"></i>
+                                <span class="title">Reminders</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings">
+                                <i class="fa-solid fa-gear full"></i>
+                                <span class="title">Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="right">
+            <div class="top">
+                <div class="searchBox">
+                    <h2>Dashboard</h2>
+                    <div class="inputBox">
+                        <i class="fa-solid fa-magnifying-glass searchOpen"></i>
+                        <input type="text" placeholder="Search...">
+                        <i class="fa-solid fa-xmark  searchClose"></i>
+                    </div>
+                </div>
+                <div class="user">
+                    <i class="fa-regular fa-bell"></i>
+                    <div class="userImage">
+                        <img src="../p/img/user.jpg" alt>
+                    </div>
+                    <h2>Mostakin Mondal<br><span>Administrator</span></h2>
+                    <div class="arrow">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="toggle">
+                        <i class="fa-solid fa-bars"></i>
+                        <i class="fa-solid fa-xmark full"></i>
+                    </div>
+                </div>
+            </div>
+
+            <main>
+                <div class="writing">
+                    <div class="projectCard">
+                        <div class="projectTop">
+                            <h2>Writing Goals <br><span>Category
+                                    Name</span></h2>
+                            <div class="projectsDots">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+                        </div>
+                        <div class="projectProgress">
+                            <div class="process ">
+                                <h2 class="progress">In Progress</h2>
+                            </div>
+                            <div class="process">
+                                <h2 class="Percentage">0%</h2>
+                            </div>
+                        </div>
+                        <hr class="hr-line">
+                        <div class="task">
+                            <h2>Tasks Done: <span id="wordCount">0<span /> /
+                                    150</h2>
+                        </div>
+                        <div class="due">
+                            <h2 class="date">Due Date: <span class="day">04</span> <span class="month">Sep</span> </h2>
+                        </div>
+                    </div>
+                    <div class="writing-pad">
+                        <div class="projectTop">
+                            <h2>writing pad</h2>
+                        </div>
+                        <hr>
+                        <div class="pad">
+                            <textarea id="textarea" placeholder="Start writing your ideas here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="mind-map">
+                    <div class="mind-map-header">
+                        <h2>Mind Map</h2>
+                        <div class="mind-map-options">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </div>
+                    </div>
+                    <div class="mind-map-canvas">
+                        <ul class="nodes">
+                        </ul>
+                    </div>
+                    <button class="add-node">Add New Node</button>
+                </div>
+                <div class="calendar">
+                    <header class="calendar-header">
+                        <p class="calendar-current-date"></p>
+                        <div class="calendar-navigation">
+                            <i class="fa-solid fa-caret-left"></i>
+                            <i class="fa-solid fa-caret-right"></i>
+                        </div>
+                    </header>
+                    <div class="massage">
+                        <p>ki</p>
+                    </div>
+                    <div class="calendar-body">
+                        <ul class="calendar-weekdays">
+                            <li>Sun</li>
+                            <li>Mon</li>
+                            <li>Tue</li>
+                            <li>Wed</li>
+                            <li>Thu</li>
+                            <li>Fri</li>
+                            <li>Sat</li>
+                        </ul>
+                        <ul class="calendar-dates"></ul>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+    <script>
+        let toggle = document.querySelector('.toggle');
+        let left = document.querySelector('.left');
+        let right = document.querySelector('.right');
+        let close = document.querySelector('.close');
+        let body = document.querySelector('body');
+        let searchBox = document.querySelector('.searchBox');
+        let searchOpen = document.querySelector('.searchOpen');
+        let searchClose = document.querySelector('.searchClose');
+
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            left.classList.toggle('active');
+            right.classList.toggle('active');
+            body.style.overflow = 'hidden';
+        });
+        close.onclick = () => {
+            toggle.classList.remove('active');
+            left.classList.remove('active');
+            right.classList.remove('active');
+            body.style.overflow = '';
+        };
+        searchOpen.onclick = () => {
+            searchBox.classList.add('active');
+        };
+        searchClose.onclick = () => {
+            searchBox.classList.remove('active');
+        };
+        window.onclick = (e) => {
+            if (e.target == right) {
+                toggle.classList.remove('active');
+                left.classList.remove('active');
+                right.classList.remove('active');
+                body.style.overflow = '';
+            }
+        };
+    </script>
+</body>
+
+</html>
